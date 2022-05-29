@@ -1,6 +1,9 @@
+cp ~/workdir/RotationDetection-main/dataloader/pretrained_weights/resnet50_v1d* ~/workdir/ml_thesis/RotationDetection/dataloader/pretrained_weights/
+cd ~/workdir/ml_thesis
+
 docker run --rm --gpus all -v $(pwd):/workdir -w /workdir -it yangxue2docker/py3-tf1.15.2-nv-torch1.8.0-cuda11:v1.0 
 
-
+cd RotationDetection
 cd alpharotate/libs/utils/cython_utils
 rm *.so
 rm *.c
@@ -12,3 +15,9 @@ rm *.so
 rm *.c
 rm *.cpp
 python setup.py build_ext --inplace
+
+cd $PATH_ROOT/dataloader/dataset/  
+python convert_data_to_tfrecord.py
+
+cd $PATH_ROOT/tools/#DETECTOR
+python train.py

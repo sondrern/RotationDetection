@@ -59,7 +59,7 @@ def read_xml_gtbox_and_label(xml_path):
         #                                  + FLAGS.img_format, 'xml_name and img_name cannot match'
 
         if child_of_root.tag == 'path':
-            name = str(child_item.text)
+            name = str(child_of_root.text)
         if child_of_root.tag == 'size':
             for child_item in child_of_root:
                 if child_item.tag == 'width':
