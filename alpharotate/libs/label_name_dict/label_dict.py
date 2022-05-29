@@ -18,7 +18,7 @@ class_names = [
         'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
         'microwave', 'oven', 'toaster', 'sink', 'refrigerator',
         'book', 'clock', 'vase', 'scissors', 'teddy bear',
-        'hair drier', 'toothbrush']
+        'hair drier', 'toothbrush', 'qr']
 
 classes_originID = {
     'person': 1, 'bicycle': 2, 'car': 3, 'motorcycle': 4,
@@ -41,7 +41,7 @@ classes_originID = {
     'microwave': 78, 'oven': 79, 'toaster': 80, 'sink': 81,
     'refrigerator': 82, 'book': 84, 'clock': 85, 'vase': 86,
     'scissors': 87, 'teddy bear': 88, 'hair drier': 89,
-    'toothbrush': 90}
+    'toothbrush': 90, 'qr': 91}
 
 
 class LabelMap(object):
@@ -60,6 +60,11 @@ class LabelMap(object):
             name_label_map = {
                 'back_ground': 0,
                 'face': 1
+            }
+        elif self.cfgs.DATASET_NAME == 'DM':
+            name_label_map = {
+                'back_ground': 0,
+                'qr': 1
             }
         elif self.cfgs.DATASET_NAME in ['ICDAR2015', 'MSRA-TD500', 'MLT', 'Total_Text']:
             name_label_map = {

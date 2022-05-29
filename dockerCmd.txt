@@ -1,0 +1,14 @@
+docker run --rm --gpus all -v $(pwd):/workdir -w /workdir -it yangxue2docker/py3-tf1.15.2-nv-torch1.8.0-cuda11:v1.0 
+
+
+cd alpharotate/libs/utils/cython_utils
+rm *.so
+rm *.c
+rm *.cpp
+python setup.py build_ext --inplace
+
+cd alpharotate/libs/utils/
+rm *.so
+rm *.c
+rm *.cpp
+python setup.py build_ext --inplace

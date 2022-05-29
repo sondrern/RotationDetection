@@ -23,13 +23,13 @@ from alpharotate.utils.tools import makedirs
 from configs import cfgs
 from alpharotate.utils.order_points import re_order
 
-tf.app.flags.DEFINE_string('root_dir', '/data/dataset/DOTA/crop/trainval/', 'root dir')
-tf.app.flags.DEFINE_string('xml_dir', 'labeltxt', 'xml dir')
-tf.app.flags.DEFINE_string('image_dir', 'images', 'image dir')
+tf.app.flags.DEFINE_string('root_dir', '/workdir/ml_thesis/dataset/', 'root dir')
+tf.app.flags.DEFINE_string('xml_dir', 'xml_rotdet', 'xml dir')
+tf.app.flags.DEFINE_string('image_dir', 'Images', 'image dir')
 tf.app.flags.DEFINE_string('save_name', 'train', 'save name')
 tf.app.flags.DEFINE_string('save_dir', '../tfrecord/', 'save name')
 tf.app.flags.DEFINE_string('img_format', '.png', 'format of image')
-tf.app.flags.DEFINE_string('dataset', 'DOTA', 'dataset')
+tf.app.flags.DEFINE_string('dataset', 'DM', 'dataset')
 FLAGS = tf.app.flags.FLAGS
 
 
@@ -58,6 +58,8 @@ def read_xml_gtbox_and_label(xml_path):
         #     assert child_of_root.text == xml_path.split('/')[-1].split('.')[0] \
         #                                  + FLAGS.img_format, 'xml_name and img_name cannot match'
 
+        if child_of_root.tag == 'path':
+            name = str(child_item.text)
         if child_of_root.tag == 'size':
             for child_item in child_of_root:
                 if child_item.tag == 'width':
@@ -80,7 +82,7 @@ def read_xml_gtbox_and_label(xml_path):
 
     gtbox_label = np.array(box_list, dtype=np.int32)  # int32 is important
 
-    return img_height, img_width, gtbox_label
+    return img_height, img_width, gtbox_label, name
 
 
 def convert_pascal_to_tfrecord():
@@ -101,14 +103,12 @@ def convert_pascal_to_tfrecord():
     pbar = tqdm(total=total_data)
     for count, xml in enumerate(all_xml):
 
-        img_name = xml.split('/')[-1].split('.')[0] + FLAGS.img_format
-        img_path = image_path + '/' + img_name
+        img_height, img_width, gtbox_label, img_name = read_xml_gtbox_and_label(xml)
 
+        img_path = image_path + '/' + img_name
         if not os.path.exists(img_path):
             print('{} is not exist!'.format(img_path))
             continue
-
-        img_height, img_width, gtbox_label = read_xml_gtbox_and_label(xml)
 
         # For quad. detection in this repo, such as RSdet, FCOS
         gtbox_label = np.array(re_order(gtbox_label, True), np.int32)
