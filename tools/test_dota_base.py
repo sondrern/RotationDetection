@@ -34,11 +34,11 @@ def parse_args():
 
     parser.add_argument('--test_dir', dest='test_dir',
                         help='evaluate imgs dir ',
-                        default='/data/dataset_share/DOTA/test/images/', type=str)
+                        default='/workdir/ml_thesis/dataset5/val/image/', type=str)
     parser.add_argument('--gpus', dest='gpus',
                         help='gpu id',
-                        default='0,1,2,3,4,5,6,7', type=str)
-    parser.add_argument('--show_box', '-s', default=False,
+                        default='0', type=str)
+    parser.add_argument('--show_box', '-s', default=True,
                         action='store_true')
     parser.add_argument('--multi_scale', '-ms', default=False,
                         action='store_true')
@@ -48,13 +48,13 @@ def parse_args():
                         action='store_true')
     parser.add_argument('--num_imgs', dest='num_imgs',
                         help='test image number',
-                        default=np.inf, type=int)
+                        default=25, type=int)
     parser.add_argument('--h_len', dest='h_len',
                         help='image height',
-                        default=600, type=int)
+                        default=900, type=int)
     parser.add_argument('--w_len', dest='w_len',
                         help='image width',
-                        default=600, type=int)
+                        default=1200, type=int)
     parser.add_argument('--h_overlap', dest='h_overlap',
                         help='height overlap',
                         default=150, type=int)
@@ -227,7 +227,7 @@ class TestDOTA(object):
                              'soccer-ball-field': 0.3, 'small-vehicle': 0.2, 'ship': 0.2, 'plane': 0.3,
                              'large-vehicle': 0.1, 'helicopter': 0.2, 'harbor': 0.0001, 'ground-track-field': 0.3,
                              'bridge': 0.0001, 'basketball-court': 0.3, 'baseball-diamond': 0.3,
-                             'container-crane': 0.05, 'airport': 0.5, 'helipad': 0.1}
+                             'container-crane': 0.05, 'airport': 0.5, 'helipad': 0.1, 'qr': 0.1}
 
                 for sub_class in range(1, self.cfgs.CLASS_NUM + 1):
                     index = np.where(label_res_rotate == sub_class)[0]

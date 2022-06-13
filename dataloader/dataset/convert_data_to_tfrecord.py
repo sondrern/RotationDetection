@@ -23,9 +23,9 @@ from alpharotate.utils.tools import makedirs
 from configs import cfgs
 from alpharotate.utils.order_points import re_order
 
-tf.app.flags.DEFINE_string('root_dir', '/workdir/ml_thesis/dataset/', 'root dir')
+tf.app.flags.DEFINE_string('root_dir', '/workdir/ml_thesis/dataset5/train/', 'root dir')
 tf.app.flags.DEFINE_string('xml_dir', 'xml_rotdet', 'xml dir')
-tf.app.flags.DEFINE_string('image_dir', 'Images', 'image dir')
+tf.app.flags.DEFINE_string('image_dir', 'image', 'image dir')
 tf.app.flags.DEFINE_string('save_name', 'train', 'save name')
 tf.app.flags.DEFINE_string('save_dir', '../tfrecord/', 'save name')
 tf.app.flags.DEFINE_string('img_format', '.png', 'format of image')

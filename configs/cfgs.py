@@ -3,17 +3,17 @@ from __future__ import division, print_function, absolute_import
 
 import numpy as np
 
-from alpharotate.utils.pretrain_zoo import PretrainModelZoo
 from configs._base_.models.retinanet_r50_fpn import *
-from configs._base_.datasets.dm_detection import *
+from configs._base_.datasets.dota_detection import *
 from configs._base_.schedules.schedule_1x import *
+from alpharotate.utils.pretrain_zoo import PretrainModelZoo
 
 # schedule
 BATCH_SIZE = 1  # r3det only support 1
 GPU_GROUP = '0'
 NUM_GPU = len(GPU_GROUP.strip().split(','))
 LR = 1e-3
-SAVE_WEIGHTS_INTE = 2338
+SAVE_WEIGHTS_INTE = 27000 * 1
 DECAY_STEP = np.array(DECAY_EPOCH, np.int32) * SAVE_WEIGHTS_INTE
 MAX_ITERATION = SAVE_WEIGHTS_INTE * MAX_EPOCH
 WARM_SETP = int(WARM_EPOCH * SAVE_WEIGHTS_INTE)
@@ -34,29 +34,43 @@ REFINE_IOU_NEGATIVE_THRESHOLD = [0.5, 0.6]
 
 # loss
 CLS_WEIGHT = 1.0
-REG_WEIGHT = 5.0
+REG_WEIGHT = 2.0
 
-VERSION = 'RetinaNet_DOTA_R3Det_KF_2x_20210917'
+GWD_TAU = 2.0
+GWD_FUNC = tf.sqrt
+
+VERSION = 'RetinaNet_QR_R3Det_GWD_2x_20220213'
 
 """
-r3det + kfiou -ln(3*IoU)
-
-loss = (loss_1.reshape([n, 1]) + loss_2).reshape([n*n,1])
-loss = sum(loss)
-loss /= n
-
-FLOPs: 1032041742;    Trainable params: 37769656
+r3det+gwd (only refine stage) + sqrt tau=2
+FLOPs: 1032041709;    Trainable params: 37769656
 
 This is your result for task 1:
 
-mAP: 0.7176788384273244
-ap of each class: plane:0.8855798467584249, baseball-diamond:0.744482557219137, bridge:0.45771416812445115, ground-track-field:0.6523946221642477, small-vehicle:0.7619586924461368, large-vehicle:0.7834498050213925, ship:0.869372450869013, tennis-court:0.9059208931980178, basketball-court:0.8034679103563336, storage-tank:0.822298800697681, soccer-ball-field:0.5762588318789326, roundabout:0.6221845306345486, harbor:0.6138822646762611, swimming-pool:0.6945616548476672, helicopter:0.5716555475176165
+mAP: 0.7155604317956082
+ap of each class:
+plane:0.8817888214941647,
+baseball-diamond:0.7752929496489188,
+bridge:0.4673063222374159,
+ground-track-field:0.6651188544481901,
+small-vehicle:0.7584158563046128,
+large-vehicle:0.7800322878710797,
+ship:0.8671372194827895,
+tennis-court:0.8968825767254914,
+basketball-court:0.809828240738427,
+storage-tank:0.8309499971846301,
+soccer-ball-field:0.6051807676755416,
+roundabout:0.6112273403144328,
+harbor:0.6268850150943335,
+swimming-pool:0.6702592464207354,
+helicopter:0.48710098129335877
+
 The submitted information is :
 
-Description: RetinaNet_DOTA_R3Det_KF_2x_20210917_70.2w
-Username: SJTU-Det
-Institute: SJTU
-Emailadress: yangxue-2019-sjtu@sjtu.edu.cn
-TeamMembers: yangxue
-
+Description: RetinaNet_DOTA_R3Det_GWD_2x_20201221_70.2w
+Username: yangxue
+Institute: DetectionTeamUCAS
+Emailadress: yangxue16@mails.ucas.ac.cn
+TeamMembers: yangxue, yangjirui
 """
+
