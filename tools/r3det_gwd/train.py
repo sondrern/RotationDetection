@@ -109,6 +109,7 @@ class TrainR3DetGWD(Train):
 
                                     img = inputs_list[i][0]
                                     img_shape = inputs_list[i][-2:]
+                                    print("Hiv å hoj")
                                     img = tf.image.crop_to_bounding_box(image=img,
                                                                         offset_height=0,
                                                                         offset_width=0,
@@ -157,7 +158,7 @@ class TrainR3DetGWD(Train):
                             if cfgs.GRADIENT_CLIPPING_BY_NORM is not None:
                                 grads = slim.learning.clip_gradient_norms(grads, cfgs.GRADIENT_CLIPPING_BY_NORM)
                             tower_grads.append(grads)
-            self.log_printer(r3det_gwd, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph)
+            self.log_printer(r3det_gwd, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph, , img_name_batch[0])
 
 if __name__ == '__main__':
 

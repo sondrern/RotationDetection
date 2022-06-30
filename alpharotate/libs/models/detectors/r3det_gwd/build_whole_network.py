@@ -270,6 +270,8 @@ class DetectionNetworkR3DetGWD(DetectionNetworkBase):
     def refine_stage(self, input_img_batch, gtboxes_batch_r, box_pred_list, cls_prob_list, proposal_list,
                      feature_pyramid, gpu_id, pos_threshold, neg_threshold,
                      stage, proposal_filter=False):
+
+        print("refine_stage")
         with tf.variable_scope('refine_feature_pyramid{}'.format(stage)):
             refine_feature_pyramid = {}
             refine_boxes_list = []
@@ -357,7 +359,9 @@ class DetectionNetworkR3DetGWD(DetectionNetworkBase):
         if self.cfgs.USE_GN:
             input_img_batch = tf.reshape(input_img_batch, [1, self.cfgs.IMG_SHORT_SIDE_LEN,
                                                            self.cfgs.IMG_MAX_LENGTH, 3])
-
+        print("******************")
+        print("build_whole_detection_network")
+        print("******************")
         # 1. build backbone
         feature_pyramid = self.build_backbone(input_img_batch)
 

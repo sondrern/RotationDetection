@@ -13,6 +13,8 @@ class RefineAnchorSamplerR3Det(Sampler):
 
     def refine_anchor_target_layer(self, gt_boxes_r, anchors, pos_threshold, neg_threshold, gpu_id=0):
 
+        print("refine_anchor_target_layer")
+
         anchor_states = np.zeros((anchors.shape[0],))
         labels = np.zeros((anchors.shape[0], self.cfgs.CLASS_NUM))
         if gt_boxes_r.shape[0]:
@@ -29,7 +31,7 @@ class RefineAnchorSamplerR3Det(Sampler):
 
             # compute box regression targets
             target_boxes = gt_boxes_r[argmax_overlaps_inds]
-
+            
             positive_indices = max_overlaps >= pos_threshold
             ignore_indices = (max_overlaps > neg_threshold) & ~positive_indices
 

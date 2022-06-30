@@ -153,7 +153,7 @@ class Train(object):
         total_loss_dict['total_losses'] += total_losses
         return total_loss_dict, total_losses
 
-    def log_printer(self, deter, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph):
+    def log_printer(self, deter, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph, img_name_batch):
         for k in total_loss_dict.keys():
             tf.summary.scalar('{}/{}'.format(k.split('_')[0], k), total_loss_dict[k])
 
@@ -216,6 +216,8 @@ class Train(object):
 
             for step in range(self.cfgs.MAX_ITERATION // num_gpu):
                 training_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+                step2 = (step%549)
+                print("Step: %d, img: %s \n" % (step, img_name_batch[step2]))
 
                 if step % self.cfgs.SHOW_TRAIN_INFO_INTE != 0 and step % self.cfgs.SMRY_ITER != 0:
                     _, global_stepnp = sess.run([train_op, global_step])
