@@ -149,7 +149,7 @@ if __name__ == '__main__':
                           is_training=True)
     gtboxes_and_label = tf.reshape(gtboxes_and_label_batch, [-1, 9])
 
-    print(img_name[0])
+    #print(img_name)
 
     init_op = tf.group(
         tf.global_variables_initializer(),

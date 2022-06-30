@@ -58,7 +58,7 @@ class TrainR3DetGWD(Train):
                                            batch_size=cfgs.BATCH_SIZE * num_gpu,
                                            shortside_len=shortside_len,
                                            is_training=True)
-
+            print(img_name)
             # data processing
             inputs_list = []
             for i in range(num_gpu):
