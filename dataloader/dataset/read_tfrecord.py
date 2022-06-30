@@ -54,6 +54,8 @@ class ReadTFRecord(object):
         gtboxes_and_label = tf.reshape(gtboxes_and_label, [-1, 9])
 
         num_objects = tf.cast(features['num_objects'], tf.int32)
+        print(filename_queue)
+        print(img_name)
         return img_name, img, gtboxes_and_label, num_objects
 
     def read_and_prepocess_single_img(self, filename_queue, shortside_len, is_training):
