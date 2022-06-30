@@ -133,7 +133,7 @@ class ReadTFRecord(object):
                            num_threads=16,
                            dynamic_pad=True)
 
-        return img_name_batch, img_batch, gtboxes_and_label_batch, num_obs_batch, img_h_batch, img_w_batch
+        return img_name_batch, img_batch, gtboxes_and_label_batch, num_obs_batch, img_h_batch, img_w_batch, img_name
 
 
 if __name__ == '__main__':

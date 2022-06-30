@@ -43,6 +43,8 @@ class TrainR3DetGWD(Train):
             r3det_gwd = build_whole_network.DetectionNetworkR3DetGWD(cfgs=self.cfgs,
                                                                      is_training=True)
 
+            print("main")
+
             with tf.name_scope('get_batch'):
                 if cfgs.IMAGE_PYRAMID:
                     shortside_len_list = tf.constant(cfgs.IMG_SHORT_SIDE_LEN)
@@ -51,7 +53,7 @@ class TrainR3DetGWD(Train):
                 else:
                     shortside_len = cfgs.IMG_SHORT_SIDE_LEN
 
-                img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch, img_h_batch, img_w_batch = \
+                img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch, img_h_batch, img_w_batch, img_name = \
                     self.reader.next_batch(dataset_name=cfgs.DATASET_NAME,
                                            batch_size=cfgs.BATCH_SIZE * num_gpu,
                                            shortside_len=shortside_len,
@@ -158,7 +160,7 @@ class TrainR3DetGWD(Train):
                             if cfgs.GRADIENT_CLIPPING_BY_NORM is not None:
                                 grads = slim.learning.clip_gradient_norms(grads, cfgs.GRADIENT_CLIPPING_BY_NORM)
                             tower_grads.append(grads)
-            self.log_printer(r3det_gwd, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph, , img_name_batch[0])
+            self.log_printer(r3det_gwd, optimizer, global_step, tower_grads, total_loss_dict, num_gpu, graph, img_name)
 
 if __name__ == '__main__':
 
