@@ -142,12 +142,14 @@ if __name__ == '__main__':
 
     reader = ReadTFRecord(cfgs)
     num_gpu = len(cfgs.GPU_GROUP.strip().split(','))
-    img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch, img_h_batch, img_w_batch = \
+    img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch, img_h_batch, img_w_batch, img_name = \
         reader.next_batch(dataset_name=cfgs.DATASET_NAME,  # 'pascal', 'coco'
                           batch_size=cfgs.BATCH_SIZE * 8,
                           shortside_len=cfgs.IMG_SHORT_SIDE_LEN,
                           is_training=True)
     gtboxes_and_label = tf.reshape(gtboxes_and_label_batch, [-1, 9])
+
+    print(img_name[0])
 
     init_op = tf.group(
         tf.global_variables_initializer(),
@@ -167,10 +169,10 @@ if __name__ == '__main__':
             = sess.run([img_name_batch, img_batch, gtboxes_and_label_batch, num_objects_batch, img_h_batch, img_w_batch])
 
         print(img_name_batch_[0])
-        print(img_batch_.shape)
-        print(gtboxes_and_label_batch_)
-        print(num_objects_batch_.shape)
-        print(img_h_batch_.shape)
+        #print(img_batch_.shape)
+        #print(gtboxes_and_label_batch_)
+        #print(num_objects_batch_.shape)
+        #print(img_h_batch_.shape)
         print('debug')
 
         coord.request_stop()
