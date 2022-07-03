@@ -216,8 +216,9 @@ class Train(object):
 
             for step in range(self.cfgs.MAX_ITERATION // num_gpu):
                 training_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-                step2 = (step%549)
-                print("Step: %d, step2: %s \n" % (step, step2))
+                
+                #step2 = (step%549)
+                #print("Step: %d, step2: %s \n" % (step, step2))
 
                 if step % self.cfgs.SHOW_TRAIN_INFO_INTE != 0 and step % self.cfgs.SMRY_ITER != 0:
                     _, global_stepnp = sess.run([train_op, global_step])
