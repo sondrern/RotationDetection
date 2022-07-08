@@ -11,6 +11,7 @@ import argparse
 import math
 import os
 from multiprocessing import Queue, Process
+import time
 
 import cv2
 import numpy as np
@@ -38,7 +39,7 @@ def parse_args():
     parser.add_argument('--gpus', dest='gpus',
                         help='gpu id',
                         default='0', type=str)
-    parser.add_argument('--show_box', '-s', default=True,
+    parser.add_argument('--show_box', '-s', default=False,
                         action='store_true')
     parser.add_argument('--multi_scale', '-ms', default=False,
                         action='store_true')
@@ -108,6 +109,8 @@ class TestDOTA(object):
 
             for img_path in images:
 
+                timeStart = time.time()
+                
                 # if 'P0006' not in img_path:
                 #     continue
 
@@ -275,6 +278,8 @@ class TestDOTA(object):
                 result_dict = {'boxes': np.array(box_res_rotate_), 'scores': np.array(score_res_rotate_),
                                'labels': np.array(label_res_rotate_), 'image_id': img_path}
                 result_queue.put_nowait(result_dict)
+                timeEnd = time.time()
+                print("Inference time: %f" % (timeEnd-timeStart))
 
     def test_dota(self, det_net, real_test_img_list, txt_name):
 
