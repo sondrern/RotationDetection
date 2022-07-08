@@ -160,11 +160,15 @@ class TestDOTA(object):
                                 new_h, new_w = min(int(short_size * float(self.args.h_len) / self.args.w_len), max_len), short_size
                             img_resize = cv2.resize(src_img, (new_w, new_h))
 
+                            timeStart2 = time.time()
+                            
                             resized_img, det_boxes_r_, det_scores_r_, det_category_r_ = \
                                 sess.run(
                                     [img_batch, detection_boxes, detection_scores, detection_category],
                                     feed_dict={img_plac: img_resize[:, :, ::-1]}
                                 )
+                            
+                            timeEnd2 = time.time()
 
                             resized_h, resized_w = resized_img.shape[1], resized_img.shape[2]
                             src_h, src_w = src_img.shape[0], src_img.shape[1]
@@ -280,6 +284,7 @@ class TestDOTA(object):
                 result_queue.put_nowait(result_dict)
                 timeEnd = time.time()
                 print("Inference time: %f" % (timeEnd-timeStart))
+                print("Inference time2: %f" % (timeEnd2-timeStart2))
 
     def test_dota(self, det_net, real_test_img_list, txt_name):
 
